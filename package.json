@@ -19,7 +19,7 @@
     "prettier": "prettier --write .",
     "format": "pnpm run prettier && pnpm run lint --fix",
     "typecheck": "vue-tsc --noEmit --skipLibCheck",
-    "test": "vitest",
+    "test": "vitest --passWithNoTests",
     "test:ui": "vitest --ui"
   },
   "activationEvents": [
