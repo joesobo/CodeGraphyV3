@@ -1,9 +1,24 @@
 import * as vscode from 'vscode'
 
-import { BaseViewProvider } from './BaseViewProvider'
+import { GraphViewProvider } from './GraphViewProvider'
+import { StatsViewProvider } from './StatsViewProvider'
 
 export function activate(context: vscode.ExtensionContext) {
 	console.log('CodeGraphy - Base Extension activated!')
+
+	context.subscriptions.push(
+		vscode.window.registerWebviewViewProvider(
+			'codegraphy-v3-view-graph',
+			new GraphViewProvider(context.extensionUri),
+		),
+	)
+
+	context.subscriptions.push(
+		vscode.window.registerWebviewViewProvider(
+			'codegraphy-v3-view-stats',
+			new StatsViewProvider(context.extensionUri),
+		),
+	)
 
 	const files = [
 		{
@@ -15,15 +30,6 @@ export function activate(context: vscode.ExtensionContext) {
 			name: 'Node 2',
 		},
 	]
-
-	const provider = new BaseViewProvider(context.extensionUri)
-
-	context.subscriptions.push(
-		vscode.window.registerWebviewViewProvider(
-			BaseViewProvider.viewType,
-			provider,
-		),
-	)
 
 	const getData = vscode.commands.registerCommand('codegraphy.getData', () => {
 		return { message: files }

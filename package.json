@@ -3,6 +3,9 @@
   "displayName": "CodeGraphy V3",
   "description": "",
   "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.69.0"
+  },
   "publisher": "codegraphy",
   "categories": [
     "Other"

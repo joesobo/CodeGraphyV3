@@ -2,8 +2,8 @@ import * as vscode from 'vscode'
 
 import { handleMessages } from './messenger'
 
-export class BaseViewProvider implements vscode.WebviewViewProvider {
-	public static readonly viewType = 'base-view-sidebar'
+export class GraphViewProvider implements vscode.WebviewViewProvider {
+	public static readonly viewType = 'graph-view-sidebar'
 
 	private _view?: vscode.WebviewView
 
@@ -47,14 +47,14 @@ export class BaseViewProvider implements vscode.WebviewViewProvider {
 
 					<link href="${styleMainUri}" rel="stylesheet">
 
-					<title>Base View Extension</title>
+					<title>Graph View Extension</title>
 				</head>
 				<body>
 					<script>
 						const vscode = acquireVsCodeApi();
 					</script>
 
-					<div id="app"></div>
+					<div id="graph-app"></div>
 
 					<script type="module" src="${scriptUri}"></script>
 				</body>
