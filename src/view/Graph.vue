@@ -1,4 +1,5 @@
 <template>
+	<Header />
   <div class="mx-auto flex w-3/4 flex-col items-center">
     <IconLighthouse style="font-size: 4em" class="my-2" />
     <h1 class="text-lg">Vue 3 Extension Template</h1>
@@ -27,6 +28,7 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import Button from './components/Button.vue'
+import Header from './components/Header.vue'
 
 import IconLighthouse from '~icons/mdi/lighthouse'
 

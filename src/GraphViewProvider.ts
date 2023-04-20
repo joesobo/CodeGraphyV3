@@ -46,6 +46,7 @@ export class GraphViewProvider implements vscode.WebviewViewProvider {
 					<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 					<link href="${styleMainUri}" rel="stylesheet">
+					<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
 
 					<title>Graph View Extension</title>
 				</head>

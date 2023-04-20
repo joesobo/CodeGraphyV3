@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+/*
 :root {
   --container-paddding: 20px;
   --input-padding-vertical: 6px;
@@ -91,4 +91,4 @@ textarea {
 input::placeholder,
 textarea::placeholder {
   color: var(--vscode-input-placeholderForeground);
-}
+} */
