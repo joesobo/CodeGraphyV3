@@ -1,15 +1,18 @@
 import * as vscode from 'vscode'
 
 import { GraphViewProvider } from './GraphViewProvider'
+import { files } from './messenger'
 import { StatsViewProvider } from './StatsViewProvider'
 
 export function activate(context: vscode.ExtensionContext) {
 	console.log('CodeGraphy - Base Extension activated!')
 
+	const graphProvider = new GraphViewProvider(context.extensionUri)
+
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider(
 			'codegraphy-v3-view-graph',
-			new GraphViewProvider(context.extensionUri),
+			graphProvider,
 		),
 	)
 
@@ -20,30 +23,24 @@ export function activate(context: vscode.ExtensionContext) {
 		),
 	)
 
-	const files = [
-		{
-			id: '1',
-			name: 'Node 1',
-		},
-		{
-			id: '2',
-			name: 'Node 2',
-		},
-	]
-
-	const getData = vscode.commands.registerCommand('codegraphy.getData', () => {
-		return { message: files }
-	})
-
-	const printData = vscode.commands.registerCommand(
-		'codegraphy.printData',
-		(data) => {
-			console.log('TEST', data)
-			vscode.window.showInformationMessage(
-				`Connections: ${data.connections.length}`,
-			)
+	const getSystemFiles = vscode.commands.registerCommand(
+		'codegraphy.getSystemFiles',
+		() => {
+			return { message: files }
 		},
 	)
 
-	context.subscriptions.push(getData, printData)
+	const sendPluginConnections = vscode.commands.registerCommand(
+		'codegraphy.sendPluginConnections',
+		async (data) => {
+			vscode.window.showInformationMessage(`Edges: ${data.edges.length}`)
+			console.log('TEST', data)
+			await graphProvider.postMessage({
+				command: 'setGraphInfo',
+				data,
+			})
+		},
+	)
+
+	context.subscriptions.push(getSystemFiles, sendPluginConnections)
 }

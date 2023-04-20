@@ -32,13 +32,12 @@ const options = {
 	},
 	layout: {
 		randomSeed: 42,
-		improvedLayout: true
+		improvedLayout: true,
 	},
 	interaction: {
 		hover: true,
-	}
+	},
 }
-
 
 onMounted(() => {
 	vscode.postMessage({
@@ -50,10 +49,14 @@ onMounted(() => {
 		switch (message.command) {
 		case 'setGraphInfo':
 			if (graphContainer.value) {
-				new Network(graphContainer.value, {
-					nodes: new DataSet<Node>(message.data.nodes),
-					edges: new DataSet<Edge>(message.data.edges),
-				}, options)
+				new Network(
+					graphContainer.value,
+					{
+						nodes: new DataSet<Node>(message.data.nodes),
+						edges: new DataSet<Edge>(message.data.edges),
+					},
+					options,
+				)
 			}
 			break
 		}

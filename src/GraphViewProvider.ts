@@ -25,6 +25,15 @@ export class GraphViewProvider implements vscode.WebviewViewProvider {
 		webviewView.webview.html = this._getHtmlForWebview(webviewView.webview)
 	}
 
+	public async postMessage(message: any): Promise<boolean> {
+		if (!this._view) {
+			console.error('Failed to post message: No active view found')
+			return false
+		}
+
+		return this._view.webview.postMessage(message)
+	}
+
 	private _getHtmlForWebview(webview: vscode.Webview) {
 		// Get the local path to main script run in the webview, then convert it to a uri we can use in the webview.
 		const scriptUri = webview.asWebviewUri(
