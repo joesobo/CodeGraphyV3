@@ -28,11 +28,11 @@ const nodes = new DataSet([
 
 // create an array with edges
 const edges = new DataSet([
-	{ from: 1, to: 3 },
-	{ from: 1, to: 2 },
-	{ from: 2, to: 4 },
-	{ from: 2, to: 5 },
-	{ from: 3, to: 3 },
+	{ id: 0, from: 1, to: 3 },
+	{ id: 1, from: 1, to: 2 },
+	{ id: 2, from: 2, to: 4 },
+	{ id: 3, from: 2, to: 5 },
+	{ id: 4, from: 3, to: 3 },
 ])
 
 const data = {
