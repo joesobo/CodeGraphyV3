@@ -1,10 +1,10 @@
 <template>
-	<Header />
+  <Header />
   <div class="flex flex-col items-center">
     <IconLighthouse style="font-size: 4em" class="my-2" />
     <h1 class="text-lg">Vue 3 Extension Template</h1>
 
-    <hr class="mt-4 mb-8 w-full border-white" />
+    <hr class="mb-8 mt-4 w-full border-white" />
 
     <div ref="graphContainer" />
   </div>

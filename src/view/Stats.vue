@@ -3,7 +3,7 @@
     <IconLighthouse style="font-size: 4em" class="my-2" />
     <h1 class="text-lg">Vue 3 Extension Template</h1>
 
-    <hr class="mt-4 mb-8 w-full border-white" />
+    <hr class="mb-8 mt-4 w-full border-white" />
 
     <div class="flex gap-4">
       <label>{{ t('language') }}</label>
@@ -17,7 +17,7 @@
 
     <Button />
 
-    <p class="mt-4 mb-2">Current File: {{ currentFile }}</p>
+    <p class="mb-2 mt-4">Current File: {{ currentFile }}</p>
     <button @click="openLastFile">Open Last File</button>
   </div>
 </template>
