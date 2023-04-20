@@ -1,59 +1,54 @@
 <template>
 	<Header />
-  <div class="mx-auto flex w-3/4 flex-col items-center">
+  <div class="flex flex-col items-center">
     <IconLighthouse style="font-size: 4em" class="my-2" />
     <h1 class="text-lg">Vue 3 Extension Template</h1>
 
     <hr class="mt-4 mb-8 w-full border-white" />
 
-    <div class="flex gap-4">
-      <label>{{ t('language') }}</label>
-      <select v-model="locale" class="text-black">
-        <option value="en">en</option>
-        <option value="ja">ja</option>
-        <option value="fr">fr</option>
-      </select>
-    </div>
-    <p>Translated Content: {{ t('hello') }}</p>
-
-    <Button />
-
-    <p class="mt-4 mb-2">Current File: {{ currentFile }}</p>
-    <button @click="openLastFile">Open Last File</button>
+    <div ref="graphContainer" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { Network, DataSet } from 'vis-network/standalone'
+import { onMounted, ref } from 'vue'
 
-import Button from './components/Button.vue'
 import Header from './components/Header.vue'
 
-import IconLighthouse from '~icons/mdi/lighthouse'
+const graphContainer = ref(null)
 
-const { t, locale } = useI18n()
+const nodes = new DataSet([
+	{ id: 1, label: 'Node 1' },
+	{ id: 2, label: 'Node 2' },
+	{ id: 3, label: 'Node 3' },
+	{ id: 4, label: 'Node 4' },
+	{ id: 5, label: 'Node 5' },
+])
 
-let currentFile = ref('')
-let lastFile = ref('')
+// create an array with edges
+const edges = new DataSet([
+	{ from: 1, to: 3 },
+	{ from: 1, to: 2 },
+	{ from: 2, to: 4 },
+	{ from: 2, to: 5 },
+	{ from: 3, to: 3 },
+])
 
-// Example of handling messages sent from the extension to the webview
-window.addEventListener('message', (event) => {
-	const message = event.data // The JSON data our extension sent
+const data = {
+	nodes: nodes,
+	edges: edges,
+}
 
-	switch (message.command) {
-	case 'setCurrentFileExample':
-		lastFile.value = currentFile.value
-		currentFile.value = message.text
-		return
+const options = {
+	layout: {
+		randomSeed: 42,
+	},
+}
+
+onMounted(() => {
+	if (graphContainer.value) {
+		new Network(graphContainer.value, data, options)
 	}
 })
-
-// Example of sending a message from the webview to the extension
-const openLastFile = () => {
-	vscode.postMessage({
-		command: 'openFileExample',
-		text: lastFile.value,
-	})
-}
 </script>

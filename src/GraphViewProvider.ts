@@ -45,8 +45,12 @@ export class GraphViewProvider implements vscode.WebviewViewProvider {
 					<meta charset="UTF-8">
 					<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+					<!-- Tailwind CSS -->
 					<link href="${styleMainUri}" rel="stylesheet">
+					<!-- Inter Font -->
 					<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+					<!-- Vis Network -->
+					<link href="https://unpkg.com/vis-network@9.0.6/dist/vis-network.min.css" rel="stylesheet" type="text/css" />
 
 					<title>Graph View Extension</title>
 				</head>

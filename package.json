@@ -159,7 +159,8 @@
   },
   "dependencies": {
     "@intlify/unplugin-vue-i18n": "^0.8.1",
-    "@vitest/ui": "^0.26.2",
+    "vis-data": "^7.1.6",
+    "vis-network": "^9.1.6",
     "vue": "^3.2.45",
     "vue-i18n": "9"
   },
@@ -176,6 +177,7 @@
     "@typescript-eslint/eslint-plugin": "^5.42.0",
     "@typescript-eslint/parser": "^5.42.0",
     "@vitejs/plugin-vue": "^2.3.3",
+    "@vitest/ui": "^0.26.2",
     "concurrently": "^7.6.0",
     "eslint": "^8.30.0",
     "eslint-config-prettier": "^8.8.0",
