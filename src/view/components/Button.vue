@@ -1,14 +1,7 @@
 <template>
-  <div class="flex mt-4 gap-4 items-center w-full">
-    <p class="w-1/2">
-      Times clicked: {{ count }}
-    </p>
-    <button
-      class="w-1/2"
-      @click="increment"
-    >
-      Increment
-    </button>
+  <div class="mt-4 flex w-full items-center gap-4">
+    <p class="w-1/2">Times clicked: {{ count }}</p>
+    <button class="w-1/2" @click="increment">Increment</button>
   </div>
 </template>
 

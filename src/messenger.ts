@@ -30,7 +30,7 @@ const sendMessages = (webview: vscode.Webview) => {
 
 		await webview.postMessage({
 			command: 'setCurrentFileExample',
-			text: currentFile
+			text: currentFile,
 		})
 	})
 }

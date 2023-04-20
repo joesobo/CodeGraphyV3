@@ -1,10 +1,12 @@
 {
   "root": true,
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "import"],
   "extends": [
     "eslint:recommended",
+    "plugin:tailwindcss/recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:vue/vue3-recommended"
+    "plugin:vue/vue3-recommended",
+    "prettier"
   ],
   "rules": {
     "vue/multi-word-component-names": "off",
@@ -16,9 +18,40 @@
         "allowTemplateLiterals": true
       }
     ],
+    "import/order": [
+      "error",
+      {
+        "newlines-between": "always",
+        "groups": [
+          "external",
+          "type",
+          "index",
+          "builtin",
+          ["parent", "sibling"],
+          "object"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "@/**/**",
+            "group": "parent",
+            "position": "before"
+          },
+          {
+            "pattern": "~/**/**",
+            "group": "parent",
+            "position": "before"
+          }
+        ],
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ],
     "object-curly-spacing": ["error", "always"],
     "semi": ["error", "never"],
-    "indent": ["error", "tab"]
+    "indent": ["error", "tab"],
+    "quotes": ["error", "single"]
   },
   "parser": "vue-eslint-parser",
   "parserOptions": {

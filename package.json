@@ -1,11 +1,9 @@
 {
-  "name": "vue3baseextension",
-  "displayName": "vue3BaseExtension",
+  "name": "codegraphy-v3",
+  "displayName": "CodeGraphy V3",
   "description": "",
   "version": "0.0.1",
-  "engines": {
-    "vscode": "^1.74.0"
-  },
+  "publisher": "codegraphy",
   "categories": [
     "Other"
   ],
@@ -15,30 +13,145 @@
     "compile": "concurrently \"tsc -p ./tsconfig.extension.json --skipLibCheck\" \"vite build\" \"tailwindcss -i ./src/assets/css/main.css -o ./dist/output.css\"",
     "watch": "concurrently \"tsc -w -p ./tsconfig.extension.json --skipLibCheck\" \"vite build --watch\" \"tailwindcss -i ./src/assets/css/main.css -o ./dist/output.css --watch\"",
     "lint": "eslint \"src/**/*.{ts,vue}\"",
+    "prettier": "prettier --write .",
+    "format": "pnpm run prettier && pnpm run lint --fix",
     "typecheck": "vue-tsc --noEmit --skipLibCheck",
     "test": "vitest",
     "test:ui": "vitest --ui"
   },
+  "activationEvents": [
+    "onView:codegraphy-v3-view-graph"
+  ],
   "contributes": {
+    "commands": [
+      {
+        "command": "codegraphy.getData",
+        "title": "Get Data from Plugin Extension"
+      },
+      {
+        "command": "codegraphy.printData",
+        "title": "Print Data from Plugin Extension"
+      }
+    ],
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "vue-3-base-view",
-          "title": "Vue 3 Base Extension",
-          "icon": "src/assets/img/default.png"
+          "id": "codegraphy-v3-view",
+          "title": "CodeGraphy",
+          "icon": "img/default.png"
         }
       ]
     },
     "views": {
-      "vue-3-base-view": [
+      "codegraphy-v3-view": [
         {
           "type": "webview",
-          "id": "base-view-sidebar",
-          "name": "Vue 3 Base Extension",
-          "icon": "src/assets/img/default.png",
-          "contextualTitle": "Vue 3 Base Extension"
+          "id": "codegraphy-v3-view-graph",
+          "name": "Graph",
+          "contextualTitle": "CodeGraphy Graph"
+        },
+        {
+          "type": "webview",
+          "id": "codegraphy-v3-view-stats",
+          "name": "Stats",
+          "contextualTitle": "CodeGraphy Stats"
         }
       ]
+    },
+    "configuration": {
+      "title": "CodeGraphy Settings",
+      "properties": {
+        "codegraphy.blacklist": {
+          "type": "array",
+          "default": [
+            ".vscode",
+            ".git",
+            ".github",
+            "node_modules"
+          ],
+          "description": "Blacklist folders and files"
+        },
+        "codegraphy.favorites": {
+          "type": "array",
+          "default": [],
+          "description": "Favorite files"
+        },
+        "codegraphy.connectionType": {
+          "type": "string",
+          "default": "Interaction",
+          "description": "Method for connecting nodes"
+        },
+        "codegraphy.nodeSize": {
+          "type": "string",
+          "default": "Lines",
+          "description": "Method for sizing nodes"
+        },
+        "codegraphy.showNodeModules": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show package connections from the node_modules folder"
+        },
+        "codegraphy.showOrphans": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show nodes that are not connected to any other nodes"
+        },
+        "codegraphy.showLabels": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show labels on nodes"
+        },
+        "codegraphy.showOutlines": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show outlines on collapsed nodes"
+        },
+        "codegraphy.showArrows": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show arrows on links showing the direction of connections"
+        },
+        "codegraphy.doCollisions": {
+          "type": "boolean",
+          "default": true,
+          "description": "Allow nodes to collide with each other"
+        },
+        "codegraphy.chargeForce": {
+          "type": "number",
+          "default": -100,
+          "description": "Force applied to nodes to repel them from neighbor nodes"
+        },
+        "codegraphy.linkDistance": {
+          "type": "number",
+          "default": 100,
+          "description": "Distance between nodes"
+        },
+        "codegraphy.selectedD3Color": {
+          "type": "string",
+          "default": "Spectral",
+          "description": "Color scheme for D3 node coloring"
+        },
+        "codegraphy.nodeColor": {
+          "type": "string",
+          "default": "D3",
+          "description": "Method for coloring nodes"
+        },
+        "codegraphy.selectedNodeColor": {
+          "type": "string",
+          "default": "#fff",
+          "description": "Color of the selected node"
+        },
+        "codegraphy.favoriteNodeColor": {
+          "type": "string",
+          "default": "#ffd700",
+          "description": "Color of favorite nodes"
+        },
+        "codegraphy.outlineColor": {
+          "type": "string",
+          "default": "#ffd700",
+          "description": "Color of the outline on collapsed nodes"
+        }
+      }
     }
   },
   "dependencies": {
@@ -60,8 +173,12 @@
     "@vitejs/plugin-vue": "^2.3.3",
     "concurrently": "^7.6.0",
     "eslint": "^8.30.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-tailwindcss": "^3.11.0",
     "eslint-plugin-vue": "^9.8.0",
     "jsdom": "^20.0.3",
+    "prettier": "^2.8.7",
     "tailwindcss": "^3.2.4",
     "typescript": "^4.8.4",
     "unplugin-icons": "^0.14.15",
