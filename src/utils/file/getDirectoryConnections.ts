@@ -32,7 +32,7 @@ export const getDirectoryConnections = (files: File[], dirs: Directory[]) => {
 			if (dir.path === findDirectory) {
 				const directoryIndex = files.length + dirIndex
 				edges.push({
-					id: node.id + '-' + directoryIndex,
+					id: `${node.id}-${directoryIndex}`,
 					from: node.id,
 					to: directoryIndex,
 				})

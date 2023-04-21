@@ -1,26 +1,15 @@
 {
+  "publisher": "codegraphy",
   "name": "codegraphy-v3",
   "displayName": "CodeGraphy V3",
-  "description": "",
   "version": "0.0.1",
-  "engines": {
-    "vscode": "^1.69.0"
-  },
-  "publisher": "codegraphy",
+  "description": "",
   "categories": [
     "Other"
   ],
   "main": "./dist/extension.js",
-  "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "concurrently \"tsc -p ./tsconfig.extension.json --skipLibCheck\" \"vite build\" \"tailwindcss -i ./src/assets/css/main.css -o ./dist/output.css\"",
-    "watch": "concurrently \"tsc -w -p ./tsconfig.extension.json --skipLibCheck\" \"vite build --watch\" \"tailwindcss -i ./src/assets/css/main.css -o ./dist/output.css --watch\"",
-    "lint": "eslint \"src/**/*.{ts,vue}\"",
-    "prettier": "prettier --write .",
-    "format": "pnpm run prettier && pnpm run lint --fix",
-    "typecheck": "vue-tsc --noEmit --skipLibCheck",
-    "test": "vitest --passWithNoTests",
-    "test:ui": "vitest --ui"
+  "engines": {
+    "vscode": "^1.69.0"
   },
   "activationEvents": [
     "onView:codegraphy-v3-view-graph"
@@ -157,6 +146,16 @@
       }
     }
   },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "concurrently \"tsc -p ./tsconfig.extension.json --skipLibCheck\" \"vite build\" \"tailwindcss -i ./src/assets/css/main.css -o ./dist/output.css\"",
+    "watch": "concurrently \"tsc -w -p ./tsconfig.extension.json --skipLibCheck\" \"vite build --watch\" \"tailwindcss -i ./src/assets/css/main.css -o ./dist/output.css --watch\"",
+    "lint": "eslint",
+    "format": "eslint . --fix",
+    "typecheck": "vue-tsc --noEmit --skipLibCheck",
+    "test": "vitest --passWithNoTests",
+    "test:ui": "vitest --ui"
+  },
   "dependencies": {
     "@intlify/unplugin-vue-i18n": "^0.8.1",
     "chroma-js": "^2.4.2",
@@ -166,6 +165,7 @@
     "vue-i18n": "9"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^0.38.5",
     "@headlessui/vue": "^1.7.13",
     "@heroicons/vue": "^2.0.17",
     "@iconify-json/mdi": "^1.1.39",
@@ -176,18 +176,12 @@
     "@types/jest": "^29.2.4",
     "@types/node": "^18.11.17",
     "@types/vscode": "^1.73.0",
-    "@typescript-eslint/eslint-plugin": "^5.42.0",
-    "@typescript-eslint/parser": "^5.42.0",
     "@vitejs/plugin-vue": "^2.3.3",
     "@vitest/ui": "^0.26.2",
     "concurrently": "^7.6.0",
     "eslint": "^8.30.0",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-tailwindcss": "^3.11.0",
-    "eslint-plugin-vue": "^9.8.0",
     "jsdom": "^20.0.3",
-    "prettier": "^2.8.7",
     "tailwindcss": "^3.3.1",
     "typescript": "^4.8.4",
     "unplugin-icons": "^0.14.15",

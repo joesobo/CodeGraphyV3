@@ -1,10 +1,12 @@
 import * as vscode from 'vscode'
 
-import { GraphViewProvider } from './GraphViewProvider'
-import { StatsViewProvider } from './StatsViewProvider'
 import { files, setPluginData } from './utils/info'
 
-export function activate(context: vscode.ExtensionContext) {
+import { GraphViewProvider } from './GraphViewProvider'
+import { StatsViewProvider } from './StatsViewProvider'
+
+export const activate = (context: vscode.ExtensionContext) => {
+	// eslint-disable-next-line no-console -- For Testing Purposes
 	console.log('CodeGraphy - Base Extension activated!')
 
 	const graphProvider = new GraphViewProvider(context.extensionUri)

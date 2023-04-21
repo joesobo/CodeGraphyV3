@@ -1,19 +1,19 @@
 <template>
   <Header />
   <div class="flex flex-col items-center">
-    <h1 class="text-lg">Vue 3 Extension Template</h1>
+    <h1 class="text-lg">
+      Vue 3 Extension Template
+    </h1>
 
-    <hr class="mb-8 mt-4 w-full border-white" />
+    <hr class="mb-8 mt-4 w-full border-white">
 
     <div ref="graphContainer" class="h-[500px] w-[500px] bg-zinc-800" />
     <button
       class="mt-4"
-      @click="
-        () => {
-          mode = mode === 'Interaction' ? 'Directory' : 'Interaction'
-          fetchGraphInfo()
-        }
-      "
+      @click="() => {
+        mode = mode === 'Interaction' ? 'Directory' : 'Interaction'
+        fetchGraphInfo()
+      }"
     >
       Switch Mode
     </button>
@@ -21,14 +21,15 @@
 </template>
 
 <script setup lang="ts">
-import { Network, DataSet } from 'vis-network/standalone'
+import { DataSet, Network } from 'vis-network/standalone'
 import { onMounted, ref } from 'vue'
 
-import type { Node, Edge, ConnectionMode } from '../utils/types'
 import type { Ref } from 'vue'
+import type { ConnectionMode, Edge, Node } from '../utils/types'
 
 import Header from './components/Header.vue'
 
+const network = ref<Network>()
 const graphContainer = ref(null)
 const mode: Ref<ConnectionMode> = ref('Interaction')
 
@@ -57,10 +58,9 @@ onMounted(() => {
 
 	window.addEventListener('message', (event) => {
 		const message = event.data // The JSON data our extension sent
-		switch (message.command) {
-		case 'setGraphInfo':
+		if (message.command === 'setGraphInfo') {
 			if (graphContainer.value) {
-				new Network(
+				network.value = new Network(
 					graphContainer.value,
 					{
 						nodes: new DataSet<Node>(message.data.nodes),
@@ -69,10 +69,9 @@ onMounted(() => {
 					options,
 				)
 			}
-			break
-		case 'pluginLoaded':
+		}
+		else if (message.command === 'pluginLoaded') {
 			fetchGraphInfo()
-			break
 		}
 	})
 })

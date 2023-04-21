@@ -1,25 +1,25 @@
-import { EdgeOptions, NodeOptions } from 'vis-network/standalone'
+import type { EdgeOptions, NodeOptions } from 'vis-network/standalone'
 
 export type Node = NodeOptions & {
-  id: number;
-  label: string;
-  path: string;
-  type: 'File' | 'Directory' | 'Package';
-  color?: string;
-};
+  id: number
+  label: string
+  path: string
+  type: 'File' | 'Directory' | 'Package'
+  color?: string
+}
 
 export type Edge = EdgeOptions & {
-  id: string;
-  to: number;
-  from: number;
-  color?: string;
-};
+  id: string
+  to: number
+  from: number
+  color?: string
+}
 
-export type File = {
+export interface File {
   path: string
 }
 
-export type Directory = {
+export interface Directory {
   path: string
 }
 

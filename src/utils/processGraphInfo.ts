@@ -1,12 +1,12 @@
 import type { ConnectionMode, Edge, Node } from './types'
-
-import { colorEdges } from './edges/colorEdges'
 import {
 	directoryEdges,
 	directoryNodes,
 	pluginEdges,
 	pluginNodes,
 } from './info'
+
+import { colorEdges } from './edges/colorEdges'
 import { colorNodes } from './nodes/colorNodes'
 
 export const processGraphInfo = (mode: ConnectionMode) => {
@@ -16,7 +16,8 @@ export const processGraphInfo = (mode: ConnectionMode) => {
 	if (mode === 'Interaction') {
 		nodes = pluginNodes
 		edges = pluginEdges
-	} else {
+	}
+	else {
 		nodes = directoryNodes
 		edges = directoryEdges
 	}

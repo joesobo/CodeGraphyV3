@@ -11,26 +11,26 @@ interface VitestConfigExport extends UserConfig {
 }
 
 module.exports = defineConfig({
-  plugins: [
-    vue({ customElement: true }),
-    Icons({
-      autoInstall: true,
-    }),
-    VueI18nPlugin({}),
-  ],
-  build: {
-    lib: {
-      entry: './src/view/index.ts',
-      formats: ['es', 'cjs'],
-      fileName: (format) => `index.${format}.js`,
-    },
-    emptyOutDir: false,
-    outDir: 'dist/compiled',
-  },
-  test: {
-    globals: true,
-    include: ['**/*.spec.ts'],
-    setupFiles: ['./setupTests.ts'],
-    environment: 'jsdom',
-  },
+	plugins: [
+		vue({ customElement: true }),
+		Icons({
+			autoInstall: true,
+		}),
+		VueI18nPlugin({}),
+	],
+	build: {
+		lib: {
+			entry: './src/view/index.ts',
+			formats: ['es', 'cjs'],
+			fileName: format => `index.${format}.js`,
+		},
+		emptyOutDir: false,
+		outDir: 'dist/compiled',
+	},
+	test: {
+		globals: true,
+		include: ['**/*.spec.ts'],
+		setupFiles: ['./setupTests.ts'],
+		environment: 'jsdom',
+	},
 } as VitestConfigExport)

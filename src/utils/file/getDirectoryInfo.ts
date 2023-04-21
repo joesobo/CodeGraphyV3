@@ -1,9 +1,8 @@
+import fs from 'node:fs'
+import path from 'node:path'
 import * as vscode from 'vscode'
 
 import type { Directory, File } from '../types'
-
-import fs from 'fs'
-import path from 'path'
 
 import { containsBlacklist } from '../vscode/blacklist'
 
@@ -24,13 +23,16 @@ export const getDirectoryInfo = () => {
 		for (const content of directoryContents) {
 			const fullPath = path.join(currentDir, content)
 
-			if (containsBlacklist(fullPath)) continue
+			if (containsBlacklist(fullPath)) {
+				continue
+			}
 
 			if (fs.statSync(fullPath).isFile()) {
 				files.push({
 					path: fullPath,
 				})
-			} else {
+			}
+			else {
 				touchedDirs.push(fullPath)
 				dirs.push({ path: fullPath })
 			}

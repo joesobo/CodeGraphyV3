@@ -1,4 +1,4 @@
-import * as vscode from 'vscode'
+import type * as vscode from 'vscode'
 
 import { processGraphInfo } from './utils/processGraphInfo'
 
@@ -14,7 +14,6 @@ const receiveMessages = (webview: vscode.Webview) => {
 				command: 'setGraphInfo',
 				data: { ...processGraphInfo(message.message.mode) },
 			})
-			return
 		}
 	})
 }

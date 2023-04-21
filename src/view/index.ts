@@ -1,9 +1,9 @@
 import { createApp } from 'vue'
 import { createI18n } from 'vue-i18n'
 
+import { messages } from '../locales'
 import Graph from './Graph.vue'
 import Stats from './Stats.vue'
-import { messages } from '../locales'
 
 const i18n = createI18n({
 	legacy: false,

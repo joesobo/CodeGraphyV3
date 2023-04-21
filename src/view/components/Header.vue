@@ -11,7 +11,7 @@
             class="h-8 w-auto"
             src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
             alt=""
-          />
+          >
         </a>
       </div>
       <div class="flex lg:hidden">
@@ -70,7 +70,9 @@
                       {{ item.name }}
                       <span class="absolute inset-0" />
                     </a>
-                    <p class="mt-1 text-gray-600">{{ item.description }}</p>
+                    <p class="mt-1 text-gray-600">
+                      {{ item.description }}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -169,7 +171,7 @@
                 class="h-8 w-auto"
                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                 alt=""
-              />
+              >
             </a>
             <button
               type="button"
@@ -309,10 +311,12 @@ const products = [
 		icon: ArrowPathIcon,
 	},
 ]
+
 const callsToAction = [
 	{ name: 'Watch demo', href: '#', icon: PlayCircleIcon },
 	{ name: 'Contact sales', href: '#', icon: PhoneIcon },
 ]
+
 const company = [
 	{
 		name: 'About us',

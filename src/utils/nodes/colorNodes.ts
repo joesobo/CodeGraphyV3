@@ -1,5 +1,4 @@
 import chroma from 'chroma-js'
-
 import type { Node } from '../types'
 
 // Create a color scale for file extensions using chroma.js
@@ -42,8 +41,8 @@ const getColorByFileExtension = (colorString: string) => {
 
 export const colorNodes = (nodes: Node[]) => {
 	nodes.forEach((node) => {
-		const colorString =
-      node.type === 'Directory' || node.type === 'Package'
+		const colorString
+      = (node.type === 'Directory' || node.type === 'Package')
       	? node.type
       	: node.label.split('.')[1]
 
