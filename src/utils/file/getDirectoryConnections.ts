@@ -1,6 +1,6 @@
 import type { Directory, Edge, File, Node } from '../types'
 
-export const getStandardConnections = (files: File[], dirs: Directory[]) => {
+export const getDirectoryConnections = (files: File[], dirs: Directory[]) => {
 	const nodes: Node[] = []
 	const edges: Edge[] = []
 

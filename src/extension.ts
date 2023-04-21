@@ -1,8 +1,8 @@
 import * as vscode from 'vscode'
 
 import { GraphViewProvider } from './GraphViewProvider'
-import { files } from './messenger'
 import { StatsViewProvider } from './StatsViewProvider'
+import { files, setPluginData } from './utils/info'
 
 export function activate(context: vscode.ExtensionContext) {
 	console.log('CodeGraphy - Base Extension activated!')
@@ -33,10 +33,9 @@ export function activate(context: vscode.ExtensionContext) {
 	const sendPluginConnections = vscode.commands.registerCommand(
 		'codegraphy.sendPluginConnections',
 		async (data) => {
-			vscode.window.showInformationMessage(`Edges: ${data.edges.length}`)
-			console.log('TEST', data)
+			setPluginData(data)
 			await graphProvider.postMessage({
-				command: 'setGraphInfo',
+				command: 'pluginLoaded',
 				data,
 			})
 		},

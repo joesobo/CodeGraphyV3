@@ -1,12 +1,28 @@
-import type { Directory, File } from './types'
+import type { ConnectionMode, Edge, Node } from './types'
 
-import { getStandardConnections } from './file/getStandardConnections'
+import { colorEdges } from './edges/colorEdges'
+import {
+	directoryEdges,
+	directoryNodes,
+	pluginEdges,
+	pluginNodes,
+} from './info'
+import { colorNodes } from './nodes/colorNodes'
 
-export const processGraphInfo = (files: File[], dirs: Directory[]) => {
-	// get directory connection data
-	const { nodes, edges } = getStandardConnections(files, dirs)
+export const processGraphInfo = (mode: ConnectionMode) => {
+	let nodes: Node[] = []
+	let edges: Edge[] = []
 
-	// send files to plugin to be processed into connections
+	if (mode === 'Interaction') {
+		nodes = pluginNodes
+		edges = pluginEdges
+	} else {
+		nodes = directoryNodes
+		edges = directoryEdges
+	}
+
+	colorNodes(nodes)
+	colorEdges(edges)
 
 	return { nodes, edges }
 }

@@ -6,6 +6,17 @@
     <hr class="mb-8 mt-4 w-full border-white" />
 
     <div ref="graphContainer" class="h-[500px] w-[500px] bg-zinc-800" />
+    <button
+      class="mt-4"
+      @click="
+        () => {
+          mode = mode === 'Interaction' ? 'Directory' : 'Interaction'
+          fetchGraphInfo()
+        }
+      "
+    >
+      Switch Mode
+    </button>
   </div>
 </template>
 
@@ -13,11 +24,13 @@
 import { Network, DataSet } from 'vis-network/standalone'
 import { onMounted, ref } from 'vue'
 
-import type { Node, Edge } from '../utils/types'
+import type { Node, Edge, ConnectionMode } from '../utils/types'
+import type { Ref } from 'vue'
 
 import Header from './components/Header.vue'
 
 const graphContainer = ref(null)
+const mode: Ref<ConnectionMode> = ref('Interaction')
 
 const options = {
 	nodes: {
@@ -40,9 +53,7 @@ const options = {
 }
 
 onMounted(() => {
-	vscode.postMessage({
-		command: 'getGraphInfo',
-	})
+	fetchGraphInfo()
 
 	window.addEventListener('message', (event) => {
 		const message = event.data // The JSON data our extension sent
@@ -59,7 +70,17 @@ onMounted(() => {
 				)
 			}
 			break
+		case 'pluginLoaded':
+			fetchGraphInfo()
+			break
 		}
 	})
 })
+
+const fetchGraphInfo = () => {
+	vscode.postMessage({
+		command: 'getGraphInfo',
+		message: { mode: mode.value },
+	})
+}
 </script>

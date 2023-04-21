@@ -5,12 +5,14 @@ export interface Node extends NodeOptions {
   label: string
   path: string
   type: 'File' | 'Directory' | 'Package'
+  color?: string
 }
 
 export interface Edge extends EdgeOptions {
   id: string
   to: number
   from: number
+  color?: string
 }
 
 export interface File {
@@ -20,3 +22,5 @@ export interface File {
 export interface Directory {
   path: string
 }
+
+export type ConnectionMode = 'Interaction' | 'Directory'
