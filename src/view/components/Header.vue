@@ -2,11 +2,11 @@
   <Menu v-slot="{ open }" as="div" class="relative">
     <div class="mx-auto max-w-7xl px-2">
       <div class="relative flex h-16 items-center justify-between">
-        <div class="flex items-center px-2">
+        <!-- <div class="flex items-center px-2">
           <div class="shrink-0">
             <img class="block h-8 w-auto" src="https://user-images.githubusercontent.com/26047842/177056994-e6be0cd0-6e18-40c1-a254-ae847c62ffaf.png" alt="CodeGraphy">
           </div>
-        </div>
+        </div> -->
         <div class="flex flex-1 justify-center px-2">
           <div class="w-full max-w-lg">
             <label for="search" class="sr-only">Search</label>
@@ -18,12 +18,19 @@
             </div>
           </div>
         </div>
-        <div class="inline-flex cursor-pointer items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+        <button class="inline-flex cursor-pointer items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" @click="toggleMode">
           <span class="sr-only">Change connection mode</span>
           <GraphIcon
+            v-if="!isInteractionMode"
             class="block h-6 w-6"
+            aria-hidden="true"
           />
-        </div>
+          <FolderIcon
+            v-else
+            class="block h-6 w-6"
+            aria-hidden="true"
+          />
+        </button>
         <MenuButton class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
           <span class="sr-only">Open main menu</span>
           <Bars3Icon v-if="!open" class="block h-6 w-6" aria-hidden="true" />
@@ -68,13 +75,51 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { ChevronDownIcon, ChevronUpIcon, MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 
-import { ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
+import type { NodeSettings } from '../../utils/types'
 import NodeSettingsForm from './NodeSettingsForm.vue'
 import GraphIcon from '~icons/ph/graph'
+import FolderIcon from '~icons/mdi/folder'
 
 const openSettings = ref('')
+
+const nodeSettings = ref<NodeSettings>()
+
+onMounted(() => {
+	fetchNodeSettings()
+
+	window.addEventListener('message', (event) => {
+		const message = event.data // The JSON data our extension sent
+		switch (message.command) {
+		case 'setNodeSettings':
+			nodeSettings.value = message.nodeSettings
+			break
+		}
+	})
+})
+
+const fetchNodeSettings = () => {
+	vscode.postMessage({
+		command: 'getNodeSettings',
+	})
+}
+
+const isInteractionMode = computed(() => nodeSettings.value?.mode === 'Interaction')
+
+const toggleMode = () => {
+	if (nodeSettings.value) {
+		nodeSettings.value.mode = nodeSettings.value?.mode === 'Interaction' ? 'Directory' : 'Interaction'
+	}
+}
 
 const toggleSettings = (settings: string) => {
 	openSettings.value = openSettings.value === settings ? '' : settings
 }
+
+watch(nodeSettings, (newVal) => {
+	vscode.postMessage({
+		command: 'saveNodeSettings',
+		nodeSettings: { ...newVal },
+	})
+}, { deep: true })
 </script>
