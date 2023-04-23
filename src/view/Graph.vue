@@ -46,7 +46,7 @@ const options = {
 }
 
 onMounted(() => {
-	fetchGraphInfo()
+	fetchGraphSettings()
 
 	window.addEventListener('message', (event) => {
 		const message = event.data // The JSON data our extension sent
@@ -62,6 +62,10 @@ onMounted(() => {
 				)
 			}
 		}
+		else if (message.command === 'setNodeSettings') {
+			nodeSettings.value = message.nodeSettings
+			fetchGraphInfo()
+		}
 		else if (message.command === 'pluginLoaded') {
 			fetchGraphInfo()
 		}
@@ -76,6 +80,12 @@ const fetchGraphInfo = () => {
 	vscode.postMessage({
 		command: 'getGraphInfo',
 		message: { mode: nodeSettings.value.mode },
+	})
+}
+
+const fetchGraphSettings = () => {
+	vscode.postMessage({
+		command: 'getNodeSettings',
 	})
 }
 </script>

@@ -31,7 +31,9 @@ import Toggle from './Toggle.vue'
 const nodeSettings = ref<NodeSettings>()
 
 onMounted(() => {
-	fetchNodeSettings()
+	if (nodeSettings.value === undefined) {
+		fetchNodeSettings()
+	}
 
 	window.addEventListener('message', (event) => {
 		const message = event.data // The JSON data our extension sent

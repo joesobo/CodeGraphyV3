@@ -33,7 +33,7 @@
     </div>
 
     <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
-      <MenuItems class="absolute right-0 z-10 mt-2 w-64 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+      <MenuItems v-show="open" static class="absolute right-0 z-10 mt-2 w-64 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
         <p class="px-4 py-3 text-sm font-medium text-gray-900">
           Settings
         </p>
@@ -44,7 +44,7 @@
               <ChevronUpIcon v-if="openSettings === 'nodes'" class="block h-5 w-5 text-gray-400" aria-hidden="true" />
               <ChevronDownIcon v-else class="block h-5 w-5 text-gray-400" aria-hidden="true" />
             </div>
-            <NodeSettingsForm v-if="openSettings === 'nodes'" />
+            <NodeSettingsForm v-show="openSettings === 'nodes'" />
           </div>
         </MenuItem>
         <MenuItem v-slot="{ active }">
