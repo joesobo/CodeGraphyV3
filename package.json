@@ -118,22 +118,17 @@
           "default": 100,
           "description": "Distance between nodes"
         },
-        "codegraphy.selectedD3Color": {
-          "type": "string",
-          "default": "Spectral",
-          "description": "Color scheme for D3 node coloring"
-        },
-        "codegraphy.nodeColor": {
+        "codegraphy.colorScheme": {
           "type": "string",
           "default": "D3",
           "description": "Method for coloring nodes"
         },
-        "codegraphy.selectedNodeColor": {
+        "codegraphy.selectedColor": {
           "type": "string",
           "default": "#fff",
           "description": "Color of the selected node"
         },
-        "codegraphy.favoriteNodeColor": {
+        "codegraphy.favoriteColor": {
           "type": "string",
           "default": "#ffd700",
           "description": "Color of favorite nodes"
@@ -142,6 +137,11 @@
           "type": "string",
           "default": "#ffd700",
           "description": "Color of the outline on collapsed nodes"
+        },
+        "codegraphy.edgeColor": {
+          "type": "string",
+          "default": "#666",
+          "description": "Color of connections between nodes"
         }
       }
     }
@@ -162,7 +162,9 @@
     "vis-data": "^7.1.6",
     "vis-network": "^9.1.6",
     "vue": "^3.2.45",
-    "vue-i18n": "9"
+    "vue-i18n": "9",
+    "vue-pick-colors": "^1.3.3",
+    "vue-slider-component": "^4.1.0-beta.7"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.38.5",

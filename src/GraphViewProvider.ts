@@ -60,6 +60,8 @@ export class GraphViewProvider implements vscode.WebviewViewProvider {
 					<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
 					<!-- Vis Network -->
 					<link href="https://unpkg.com/vis-network@9.0.6/dist/vis-network.min.css" rel="stylesheet" type="text/css" />
+					<!-- Vue Slider -->
+					<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vue-slider-component@latest/theme/default.css">
 
 					<title>Graph View Extension</title>
 				</head>

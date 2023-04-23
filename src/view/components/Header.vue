@@ -21,7 +21,7 @@
         <button class="inline-flex cursor-pointer items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" @click="toggleMode">
           <span class="sr-only">Change connection mode</span>
           <GraphIcon
-            v-if="!isInteractionMode"
+            v-if="isInteractionMode"
             class="block h-6 w-6"
             aria-hidden="true"
           />
@@ -51,17 +51,27 @@
               <ChevronUpIcon v-if="openSettings === 'nodes'" class="block h-5 w-5 text-gray-400" aria-hidden="true" />
               <ChevronDownIcon v-else class="block h-5 w-5 text-gray-400" aria-hidden="true" />
             </div>
-            <NodeSettingsForm v-show="openSettings === 'nodes'" />
+            <NodeSettingsForm v-show="openSettings === 'nodes'" @click.stop />
           </div>
         </MenuItem>
         <MenuItem v-slot="{ active }">
           <div>
-            <a href="#" class="block p-4 text-sm" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700']" @click.stop="toggleSettings('colors')">Colors</a>
+            <div class="flex cursor-pointer items-center justify-between p-4" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700']" @click.stop="toggleSettings('colors')">
+              <a href="#" class="block text-sm focus:outline-none">Colors</a>
+              <ChevronUpIcon v-if="openSettings === 'colors'" class="block h-5 w-5 text-gray-400" aria-hidden="true" />
+              <ChevronDownIcon v-else class="block h-5 w-5 text-gray-400" aria-hidden="true" />
+            </div>
+            <ColorSettingsForm v-show="openSettings === 'colors'" />
           </div>
         </MenuItem>
         <MenuItem v-slot="{ active }" class="rounded-md">
           <div class="rounded-md">
-            <a href="#" class="block rounded-md p-4 text-sm" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700']" @click.stop="toggleSettings('forces')">Forces</a>
+            <div class="flex cursor-pointer items-center justify-between rounded-md p-4" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700']" @click.stop="toggleSettings('forces')">
+              <a href="#" class="block text-sm focus:outline-none">Forces</a>
+              <ChevronUpIcon v-if="openSettings === 'forces'" class="block h-5 w-5 text-gray-400" aria-hidden="true" />
+              <ChevronDownIcon v-else class="block h-5 w-5 text-gray-400" aria-hidden="true" />
+            </div>
+            <ForceSettingsForm v-show="openSettings === 'forces'" @click.stop />
           </div>
         </MenuItem>
       </MenuItems>
@@ -78,6 +88,8 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { computed, onMounted, ref, watch } from 'vue'
 import type { NodeSettings } from '../../utils/types'
 import NodeSettingsForm from './NodeSettingsForm.vue'
+import ColorSettingsForm from './ColorSettingsForm.vue'
+import ForceSettingsForm from './ForceSettingsForm.vue'
 import GraphIcon from '~icons/ph/graph'
 import FolderIcon from '~icons/mdi/folder'
 

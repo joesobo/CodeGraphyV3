@@ -25,11 +25,27 @@ export type Directory = {
 
 export type ConnectionMode = 'Interaction' | 'Directory'
 
+export type NodeSize = 'Lines' | 'Connections'
+
 export type NodeSettings = {
 	mode: ConnectionMode
+	size: NodeSize
 	showPackages: boolean
 	showOrphans: boolean
 	showLabels: boolean
 	showOutlines: boolean
 	showArrows: boolean
+}
+
+export type ColorSettings = {
+	colorScheme: string
+	selectedColor: string
+	favoriteColor: string
+	outlineColor: string
+	edgeColor: string
+}
+
+export type ForceSettings = {
+	chargeForce: number
+	linkDistance: number
 }

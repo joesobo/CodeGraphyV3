@@ -9,21 +9,16 @@
 import { DataSet, Network } from 'vis-network/standalone'
 import { onMounted, ref } from 'vue'
 
-import type { Edge, Node, NodeSettings } from '../utils/types'
+import type { ColorSettings, Edge, ForceSettings, Node, NodeSettings } from '../utils/types'
 
 import Header from './components/Header.vue'
 
 const network = ref<Network>()
 const graphContainer = ref(null)
 
-const nodeSettings = ref<NodeSettings>({
-	mode: 'Interaction',
-	showPackages: true,
-	showOrphans: true,
-	showLabels: true,
-	showOutlines: true,
-	showArrows: true,
-})
+const nodeSettings = ref<NodeSettings>()
+const colorSettings = ref<ColorSettings>()
+const forceSettings = ref<ForceSettings>()
 
 const options = {
 	nodes: {
@@ -66,6 +61,14 @@ onMounted(() => {
 			nodeSettings.value = message.nodeSettings
 			fetchGraphInfo()
 		}
+		else if (message.command === 'setColorSettings') {
+			colorSettings.value = message.colorSettings
+			fetchGraphInfo()
+		}
+		else if (message.command === 'setForceSettings') {
+			forceSettings.value = message.forceSettings
+			fetchGraphInfo()
+		}
 		else if (message.command === 'pluginLoaded') {
 			fetchGraphInfo()
 		}
@@ -76,16 +79,22 @@ onMounted(() => {
 	})
 })
 
-const fetchGraphInfo = () => {
-	vscode.postMessage({
-		command: 'getGraphInfo',
-		message: { mode: nodeSettings.value.mode },
-	})
-}
-
 const fetchGraphSettings = () => {
 	vscode.postMessage({
 		command: 'getNodeSettings',
+	})
+	vscode.postMessage({
+		command: 'getColorSettings',
+	})
+	vscode.postMessage({
+		command: 'getForceSettings',
+	})
+}
+
+const fetchGraphInfo = () => {
+	vscode.postMessage({
+		command: 'getGraphInfo',
+		message: { mode: nodeSettings.value?.mode },
 	})
 }
 </script>
