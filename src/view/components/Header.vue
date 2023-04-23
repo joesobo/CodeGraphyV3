@@ -51,7 +51,7 @@
               <ChevronUpIcon v-if="openSettings === 'nodes'" class="block h-5 w-5 text-gray-400" aria-hidden="true" />
               <ChevronDownIcon v-else class="block h-5 w-5 text-gray-400" aria-hidden="true" />
             </div>
-            <NodeSettingsForm v-show="openSettings === 'nodes'" @click.stop />
+            <NodeSettingsForm v-show="openSettings === 'nodes'" @click.stop="" />
           </div>
         </MenuItem>
         <MenuItem v-slot="{ active }">
@@ -71,7 +71,7 @@
               <ChevronUpIcon v-if="openSettings === 'forces'" class="block h-5 w-5 text-gray-400" aria-hidden="true" />
               <ChevronDownIcon v-else class="block h-5 w-5 text-gray-400" aria-hidden="true" />
             </div>
-            <ForceSettingsForm v-show="openSettings === 'forces'" @click.stop />
+            <ForceSettingsForm v-show="openSettings === 'forces'" @click.stop="" />
           </div>
         </MenuItem>
       </MenuItems>

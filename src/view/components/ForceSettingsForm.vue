@@ -6,9 +6,9 @@
       </p>
 
       <div v-if="forceSettings" class="mt-6 space-y-8">
-        <Slider v-model="forceSettings.chargeForce" title="Charge" description="Push / Pull factor of nodes on each other" min="-100" max="100" step="10" />
+        <Slider v-model="forceSettings.chargeForce" title="Charge" description="Push / Pull factor of nodes on each other" :min="-100" :max="100" :step="10" />
 
-        <Slider v-model="forceSettings.linkDistance" title="Distance" description="Link distance between nodes" min="0" max="100" step="5" />
+        <Slider v-model="forceSettings.linkDistance" title="Distance" description="Link distance between nodes" :min="0" :max="100" :step="5" />
       </div>
     </div>
   </form>
