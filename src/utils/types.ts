@@ -15,12 +15,21 @@ export type Edge = EdgeOptions & {
   color?: string
 }
 
-export interface File {
+export type File = {
   path: string
 }
 
-export interface Directory {
+export type Directory = {
   path: string
 }
 
 export type ConnectionMode = 'Interaction' | 'Directory'
+
+export type NodeSettings = {
+	mode: ConnectionMode
+	showPackages: boolean
+	showOrphans: boolean
+	showLabels: boolean
+	showOutlines: boolean
+	showArrows: boolean
+}

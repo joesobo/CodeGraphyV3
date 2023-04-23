@@ -68,7 +68,7 @@
           "default": [],
           "description": "Favorite files"
         },
-        "codegraphy.connectionType": {
+        "codegraphy.mode": {
           "type": "string",
           "default": "Interaction",
           "description": "Method for connecting nodes"
@@ -78,10 +78,10 @@
           "default": "Lines",
           "description": "Method for sizing nodes"
         },
-        "codegraphy.showNodeModules": {
+        "codegraphy.showPackages": {
           "type": "boolean",
           "default": false,
-          "description": "Show package connections from the node_modules folder"
+          "description": "Show package connections"
         },
         "codegraphy.showOrphans": {
           "type": "boolean",
@@ -169,6 +169,7 @@
     "@headlessui/vue": "^1.7.13",
     "@heroicons/vue": "^2.0.17",
     "@iconify-json/mdi": "^1.1.39",
+    "@iconify-json/ph": "^1.1.5",
     "@tailwindcss/forms": "^0.5.3",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/user-event": "^14.4.3",

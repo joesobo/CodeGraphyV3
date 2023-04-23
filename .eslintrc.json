@@ -10,7 +10,9 @@
     "no-mixed-spaces-and-tabs": "off",
     "antfu/top-level-function": "off",
     "@typescript-eslint/no-use-before-define": "off",
-    "func-style": ["error", "expression"]
+    "func-style": ["error", "expression"],
+    "vue/attribute-hyphenation": "off",
+    "@typescript-eslint/consistent-type-definitions": ["error", "type"]
   },
   "globals": {
     "vscode": "writable"

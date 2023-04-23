@@ -6,9 +6,9 @@ import { defineConfig } from 'vite'
 import type { InlineConfig } from 'vitest'
 import type { UserConfig } from 'vite'
 
-interface VitestConfigExport extends UserConfig {
+type VitestConfigExport = {
   test: InlineConfig
-}
+} & UserConfig
 
 module.exports = defineConfig({
 	plugins: [

@@ -18,13 +18,17 @@
             </div>
           </div>
         </div>
-        <div class="flex">
-          <MenuButton class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-            <span class="sr-only">Open main menu</span>
-            <Bars3Icon v-if="!open" class="block h-6 w-6" aria-hidden="true" />
-            <XMarkIcon v-else class="block h-6 w-6" aria-hidden="true" />
-          </MenuButton>
+        <div class="inline-flex cursor-pointer items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+          <span class="sr-only">Change connection mode</span>
+          <GraphIcon
+            class="block h-6 w-6"
+          />
         </div>
+        <MenuButton class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+          <span class="sr-only">Open main menu</span>
+          <Bars3Icon v-if="!open" class="block h-6 w-6" aria-hidden="true" />
+          <XMarkIcon v-else class="block h-6 w-6" aria-hidden="true" />
+        </MenuButton>
       </div>
     </div>
 
@@ -40,7 +44,7 @@
               <ChevronUpIcon v-if="openSettings === 'nodes'" class="block h-5 w-5 text-gray-400" aria-hidden="true" />
               <ChevronDownIcon v-else class="block h-5 w-5 text-gray-400" aria-hidden="true" />
             </div>
-            <NodeSettings v-if="openSettings === 'nodes'" />
+            <NodeSettingsForm v-if="openSettings === 'nodes'" />
           </div>
         </MenuItem>
         <MenuItem v-slot="{ active }">
@@ -65,7 +69,8 @@ import { ChevronDownIcon, ChevronUpIcon, MagnifyingGlassIcon } from '@heroicons/
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 
 import { ref } from 'vue'
-import NodeSettings from './NodeSettings.vue'
+import NodeSettingsForm from './NodeSettingsForm.vue'
+import GraphIcon from '~icons/ph/graph'
 
 const openSettings = ref('')
 

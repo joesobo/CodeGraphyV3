@@ -2,15 +2,6 @@
   <Header />
   <div class="flex flex-col items-center">
     <div ref="graphContainer" class="h-[500px] w-[500px] bg-zinc-800" />
-    <button
-      class="mt-4"
-      @click="() => {
-        mode = mode === 'Interaction' ? 'Directory' : 'Interaction'
-        fetchGraphInfo()
-      }"
-    >
-      Switch Mode
-    </button>
   </div>
 </template>
 
@@ -18,14 +9,21 @@
 import { DataSet, Network } from 'vis-network/standalone'
 import { onMounted, ref } from 'vue'
 
-import type { Ref } from 'vue'
-import type { ConnectionMode, Edge, Node } from '../utils/types'
+import type { Edge, Node, NodeSettings } from '../utils/types'
 
 import Header from './components/Header.vue'
 
 const network = ref<Network>()
 const graphContainer = ref(null)
-const mode: Ref<ConnectionMode> = ref('Interaction')
+
+const nodeSettings = ref<NodeSettings>({
+	mode: 'Interaction',
+	showPackages: true,
+	showOrphans: true,
+	showLabels: true,
+	showOutlines: true,
+	showArrows: true,
+})
 
 const options = {
 	nodes: {
@@ -67,13 +65,17 @@ onMounted(() => {
 		else if (message.command === 'pluginLoaded') {
 			fetchGraphInfo()
 		}
+		else if (message.command === 'updateNodeSettings') {
+			nodeSettings.value = message.nodeSettings
+			fetchGraphInfo()
+		}
 	})
 })
 
 const fetchGraphInfo = () => {
 	vscode.postMessage({
 		command: 'getGraphInfo',
-		message: { mode: mode.value },
+		message: { mode: nodeSettings.value.mode },
 	})
 }
 </script>
