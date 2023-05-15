@@ -7,7 +7,7 @@
             <img class="block h-8 w-auto" src="https://user-images.githubusercontent.com/26047842/177056994-e6be0cd0-6e18-40c1-a254-ae847c62ffaf.png" alt="CodeGraphy">
           </div>
         </div> -->
-        <div class="flex flex-1 justify-center px-2">
+        <div class="flex flex-1 justify-center pr-2">
           <div class="w-full max-w-lg">
             <label for="search" class="sr-only">Search</label>
             <div class="relative">
