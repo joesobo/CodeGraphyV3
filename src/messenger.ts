@@ -14,7 +14,7 @@ const receiveMessages = (webview: vscode.Webview) => {
 		case 'getGraphInfo':
 			await webview.postMessage({
 				command: 'setGraphInfo',
-				data: { ...processGraphInfo(message.message.mode) },
+				data: { ...processGraphInfo(message.nodeSettings) },
 			})
 			break
 		case 'getNodeSettings':

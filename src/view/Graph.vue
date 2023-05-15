@@ -94,7 +94,7 @@ const fetchGraphSettings = () => {
 const fetchGraphInfo = () => {
 	vscode.postMessage({
 		command: 'getGraphInfo',
-		message: { mode: nodeSettings.value?.mode },
+		nodeSettings: { ...nodeSettings.value },
 	})
 }
 </script>
