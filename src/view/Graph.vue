@@ -35,7 +35,7 @@ onMounted(() => {
 						color: '#ffffff',
 					},
 					borderWidth: 0,
-					borderWidthSelected: 2,
+					borderWidthSelected: nodeSettings?.value?.showOutlines ? 2 : 0,
 				},
 				layout: {
 					randomSeed: 42,
@@ -105,6 +105,7 @@ const setNetworkOptions = () => {
 			font: {
 				size: nodeSettings?.value?.showLabels ? 12 : 0,
 			},
+			borderWidth: nodeSettings?.value?.showOutlines ? 2 : 0,
 		},
 	})
 }
