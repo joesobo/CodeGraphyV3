@@ -1,5 +1,5 @@
 import chroma from 'chroma-js'
-import type { Node } from '../types'
+import type { ColorSettings, Node } from '../types'
 
 // Create a color scale for file extensions using chroma.js
 const spectralColors = [
@@ -39,13 +39,27 @@ const getColorByFileExtension = (colorString: string) => {
 	return colorScale[index]
 }
 
-export const colorNodes = (nodes: Node[]) => {
+export const colorNodes = (nodes: Node[], colorSettings: ColorSettings | undefined) => {
 	nodes.forEach((node) => {
 		const colorString
       = (node.type === 'Directory' || node.type === 'Package')
       	? node.type
       	: node.label.split('.')[1]
 
-		node.color = getColorByFileExtension(colorString)
+		const nodeColor = getColorByFileExtension(colorString)
+		const borderColor = colorSettings?.outlineColor ? colorSettings.outlineColor : '#fff'
+
+		node.color = {
+			border: borderColor,
+			background: nodeColor,
+			highlight: {
+				border: borderColor,
+				background: nodeColor,
+			},
+			hover: {
+				border: borderColor,
+				background: nodeColor,
+			},
+		}
 	})
 }

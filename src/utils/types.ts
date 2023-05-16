@@ -5,14 +5,12 @@ export type Node = NodeOptions & {
   label: string
   path: string
   type: 'File' | 'Directory' | 'Package'
-  color?: string
 }
 
 export type Edge = EdgeOptions & {
   id: string
   to: number
   from: number
-  color?: string
 }
 
 export type File = {

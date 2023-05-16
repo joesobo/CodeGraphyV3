@@ -11,6 +11,7 @@ import { onMounted, ref } from 'vue'
 
 import type { ColorSettings, Edge, ForceSettings, Node, NodeSettings } from '../utils/types'
 
+import { colorNodes } from '../utils/nodes/colorNodes'
 import Header from './components/Header.vue'
 
 const network = ref<Network>()
@@ -20,22 +21,36 @@ const nodeSettings = ref<NodeSettings>()
 const colorSettings = ref<ColorSettings>()
 const forceSettings = ref<ForceSettings>()
 
+const nodes = ref<Node[]>()
+const edges = ref<Edge[]>()
+
+const dataSetNodes = ref<DataSet<Node>>()
+const dataSetEdges = ref<DataSet<Edge>>()
+
 onMounted(() => {
 	fetchGraphSettings()
 
 	window.addEventListener('message', (event) => {
 		const message = event.data // The JSON data our extension sent
 		if (message.command === 'setGraphInfo') {
+			colorNodes(message.data.nodes, colorSettings.value)
+
+			nodes.value = message.data.nodes
+			edges.value = message.data.edges
+
+			dataSetNodes.value = new DataSet<Node>(message.data.nodes)
+			dataSetEdges.value = new DataSet<Edge>(message.data.edges)
+
 			const options = {
 				nodes: {
 					shape: 'dot',
 					size: 16,
 					font: {
-						size: nodeSettings?.value?.showLabels ? 12 : 0,
+						size: nodeSettings.value?.showLabels ? 12 : 0,
 						color: '#ffffff',
 					},
 					borderWidth: 0,
-					borderWidthSelected: nodeSettings?.value?.showOutlines ? 2 : 0,
+					borderWidthSelected: nodeSettings.value?.showOutlines ? 2 : 0,
 				},
 				layout: {
 					randomSeed: 42,
@@ -50,8 +65,8 @@ onMounted(() => {
 				network.value = new Network(
 					graphContainer.value,
 					{
-						nodes: new DataSet<Node>(message.data.nodes),
-						edges: new DataSet<Edge>(message.data.edges),
+						nodes: dataSetNodes.value,
+						edges: dataSetEdges.value,
 					},
 					options,
 				)
@@ -59,7 +74,6 @@ onMounted(() => {
 		}
 		else if (message.command === 'setNodeSettings') {
 			nodeSettings.value = message.nodeSettings
-			setNetworkOptions()
 			fetchGraphInfo()
 		}
 		else if (message.command === 'setColorSettings') {
@@ -76,6 +90,24 @@ onMounted(() => {
 		else if (message.command === 'updateNodeSettings') {
 			nodeSettings.value = message.nodeSettings
 			fetchGraphInfo()
+		}
+		else if (message.command === 'updateColorSettings') {
+			const borderColor = colorSettings.value?.outlineColor ? colorSettings.value.outlineColor : '#fff'
+
+			nodes.value?.forEach((node) => {
+				dataSetNodes.value?.update({
+					id: node.id,
+					color: {
+						border: borderColor,
+						highlight: {
+							border: borderColor,
+						},
+						hover: {
+							border: borderColor,
+						},
+					},
+				})
+			})
 		}
 	})
 })
@@ -96,17 +128,6 @@ const fetchGraphInfo = () => {
 	vscode.postMessage({
 		command: 'getGraphInfo',
 		nodeSettings: { ...nodeSettings.value },
-	})
-}
-
-const setNetworkOptions = () => {
-	network.value?.setOptions({
-		nodes: {
-			font: {
-				size: nodeSettings?.value?.showLabels ? 12 : 0,
-			},
-			borderWidth: nodeSettings?.value?.showOutlines ? 2 : 0,
-		},
 	})
 }
 </script>
