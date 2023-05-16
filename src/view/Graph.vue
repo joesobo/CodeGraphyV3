@@ -20,32 +20,32 @@ const nodeSettings = ref<NodeSettings>()
 const colorSettings = ref<ColorSettings>()
 const forceSettings = ref<ForceSettings>()
 
-const options = {
-	nodes: {
-		shape: 'dot',
-		size: 16,
-		font: {
-			size: 12,
-			color: '#ffffff',
-		},
-		borderWidth: 0,
-		borderWidthSelected: 2,
-	},
-	layout: {
-		randomSeed: 42,
-		improvedLayout: true,
-	},
-	interaction: {
-		hover: true,
-	},
-}
-
 onMounted(() => {
 	fetchGraphSettings()
 
 	window.addEventListener('message', (event) => {
 		const message = event.data // The JSON data our extension sent
 		if (message.command === 'setGraphInfo') {
+			const options = {
+				nodes: {
+					shape: 'dot',
+					size: 16,
+					font: {
+						size: nodeSettings?.value?.showLabels ? 12 : 0,
+						color: '#ffffff',
+					},
+					borderWidth: 0,
+					borderWidthSelected: 2,
+				},
+				layout: {
+					randomSeed: 42,
+					improvedLayout: true,
+				},
+				interaction: {
+					hover: true,
+				},
+			}
+
 			if (graphContainer.value) {
 				network.value = new Network(
 					graphContainer.value,
@@ -59,6 +59,7 @@ onMounted(() => {
 		}
 		else if (message.command === 'setNodeSettings') {
 			nodeSettings.value = message.nodeSettings
+			setNetworkOptions()
 			fetchGraphInfo()
 		}
 		else if (message.command === 'setColorSettings') {
@@ -95,6 +96,16 @@ const fetchGraphInfo = () => {
 	vscode.postMessage({
 		command: 'getGraphInfo',
 		nodeSettings: { ...nodeSettings.value },
+	})
+}
+
+const setNetworkOptions = () => {
+	network.value?.setOptions({
+		nodes: {
+			font: {
+				size: nodeSettings?.value?.showLabels ? 12 : 0,
+			},
+		},
 	})
 }
 </script>
