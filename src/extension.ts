@@ -1,6 +1,6 @@
 import * as vscode from 'vscode'
 
-import { files, setPluginData } from './utils/info'
+import { files, setPluginData } from './utils/info/info'
 
 import { GraphViewProvider } from './GraphViewProvider'
 import { StatsViewProvider } from './StatsViewProvider'

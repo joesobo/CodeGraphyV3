@@ -2,7 +2,7 @@ import type * as vscode from 'vscode'
 
 import { fetchColorSettings, fetchForceSettings, fetchNodeSettings, saveColorSettings, saveForceSettings, saveNodeSettings } from './utils/vscode/workspaceSettings'
 
-import { processGraphInfo } from './utils/processGraphInfo'
+import { processGraphInfo } from './utils/info/processGraphInfo'
 
 export const handleMessages = (webview: vscode.Webview) => {
 	receiveMessages(webview)

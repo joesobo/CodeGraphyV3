@@ -1,7 +1,7 @@
-import type { Edge, Node } from './types'
+import type { Edge, Node } from '../types'
 
-import { getDirectoryConnections } from './file/getDirectoryConnections'
-import { getDirectoryInfo } from './file/getDirectoryInfo'
+import { getDirectoryConnections } from '../file/getDirectoryConnections'
+import { getDirectoryInfo } from '../file/getDirectoryInfo'
 
 export const { files, dirs } = getDirectoryInfo()
 export const { nodes: directoryNodes, edges: directoryEdges }
