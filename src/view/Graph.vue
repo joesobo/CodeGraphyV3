@@ -38,6 +38,10 @@ onMounted(() => {
 			nodes.value = message.data.nodes
 			edges.value = message.data.edges
 
+			edges.value?.forEach((edge) => {
+				edge.arrows = nodeSettings.value?.showArrows ? 'from' : ''
+			})
+
 			dataSetNodes.value = new DataSet<Node>(message.data.nodes)
 			dataSetEdges.value = new DataSet<Edge>(message.data.edges)
 
@@ -89,6 +93,14 @@ onMounted(() => {
 		}
 		else if (message.command === 'updateNodeSettings') {
 			nodeSettings.value = message.nodeSettings
+
+			edges.value?.forEach((edge) => {
+				dataSetEdges.value?.update({
+					id: edge.id,
+					arrows: nodeSettings.value?.showArrows ? 'to' : '',
+				})
+			})
+
 			fetchGraphInfo()
 		}
 		else if (message.command === 'updateColorSettings') {
