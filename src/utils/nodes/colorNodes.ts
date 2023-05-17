@@ -66,7 +66,7 @@ export const colorNodes = (nodes: Node[], colorSettings: ColorSettings | undefin
 	})
 }
 
-export const updateNodeColors = (nodes: Node[], colorSettings: ColorSettings | undefined, dataSetNodes: DataSet<Node>) => {
+export const updateNodeColors = (nodes: Node[], colorSettings: ColorSettings | undefined, dataSetNodes: DataSet<Node> | undefined) => {
 	nodes.forEach((node) => {
 		const colorString
       = (node.type === 'Directory' || node.type === 'Package')
@@ -77,7 +77,7 @@ export const updateNodeColors = (nodes: Node[], colorSettings: ColorSettings | u
 		const borderColor = colorSettings?.outlineColor ? colorSettings.outlineColor : '#fff'
 		const selectedColor = colorSettings?.selectedColor ? colorSettings.selectedColor : nodeColor
 
-		dataSetNodes.update({
+		dataSetNodes?.update({
 			id: node.id,
 			color: {
 				border: borderColor,

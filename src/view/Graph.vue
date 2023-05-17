@@ -12,6 +12,7 @@ import { onMounted, ref } from 'vue'
 import type { ColorSettings, Edge, ForceSettings, Node, NodeSettings } from '../utils/types'
 
 import { colorNodes, updateNodeColors } from '../utils/nodes/colorNodes'
+import { colorEdges, updateEdgeColors } from '../utils/edges/colorEdges'
 import Header from './components/Header.vue'
 
 const network = ref<Network>()
@@ -34,6 +35,7 @@ onMounted(() => {
 		const message = event.data // The JSON data our extension sent
 		if (message.command === 'setGraphInfo') {
 			colorNodes(message.data.nodes, colorSettings.value)
+			colorEdges(message.data.edges, colorSettings.value)
 
 			nodes.value = message.data.nodes
 			edges.value = message.data.edges
@@ -104,9 +106,8 @@ onMounted(() => {
 			fetchGraphInfo()
 		}
 		else if (message.command === 'updateColorSettings') {
-			if (dataSetNodes.value) {
-				updateNodeColors(nodes.value, colorSettings.value, dataSetNodes.value)
-			}
+			updateNodeColors(nodes.value, colorSettings.value, dataSetNodes.value)
+			updateEdgeColors(edges.value, colorSettings.value, dataSetEdges.value)
 		}
 	})
 })
