@@ -8,6 +8,7 @@ export const fetchNodeSettings = (): NodeSettings => {
 	// Node Settings
 	const mode = configuration.mode
 	const size = configuration.size
+	const showControls = configuration.showControls
 	const showPackages = configuration.showPackages
 	const showOrphans = configuration.showOrphans
 	const showLabels = configuration.showLabels
@@ -17,6 +18,7 @@ export const fetchNodeSettings = (): NodeSettings => {
 	return {
 		mode,
 		size,
+		showControls,
 		showPackages,
 		showOrphans,
 		showLabels,

@@ -28,6 +28,7 @@ export type NodeSize = 'Lines' | 'Connections'
 export type NodeSettings = {
 	mode: ConnectionMode
 	size: NodeSize
+	showControls: boolean
 	showPackages: boolean
 	showOrphans: boolean
 	showLabels: boolean

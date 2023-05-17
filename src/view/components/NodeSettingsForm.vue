@@ -6,6 +6,8 @@
       </p>
 
       <div v-if="nodeSettings" class="mt-6 space-y-8">
+        <Toggle v-model:enabled="nodeSettings.showControls" title="Controls" description="Render UI for manually controlling the graph" />
+
         <Toggle v-model:enabled="nodeSettings.showPackages" title="Packages" description="Render used packages as nodes" />
 
         <Toggle v-model:enabled="nodeSettings.showOrphans" title="Orphans" description="Render nodes with no connections" />

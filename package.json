@@ -78,6 +78,11 @@
           "default": "Lines",
           "description": "Method for sizing nodes"
         },
+        "codegraphy.showControls": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show graph UI controls"
+        },
         "codegraphy.showPackages": {
           "type": "boolean",
           "default": false,

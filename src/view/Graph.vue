@@ -64,6 +64,8 @@ onMounted(() => {
 				},
 				interaction: {
 					hover: true,
+					navigationButtons: nodeSettings.value?.showControls,
+					zoomView: true,
 				},
 			}
 
