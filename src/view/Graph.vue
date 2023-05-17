@@ -2,6 +2,13 @@
   <Header />
   <div class="flex flex-col items-center">
     <div ref="graphContainer" class="h-[500px] w-[500px] bg-zinc-800" />
+    <Slider
+      v-model="depth"
+      title="Depth"
+      :min="0"
+      :max="5"
+      class="mt-4 w-full"
+    />
   </div>
 </template>
 
@@ -14,9 +21,12 @@ import type { ColorSettings, Edge, ForceSettings, Node, NodeSettings } from '../
 import { colorNodes, updateNodeColors } from '../utils/nodes/colorNodes'
 import { colorEdges, updateEdgeColors } from '../utils/edges/colorEdges'
 import Header from './components/Header.vue'
+import Slider from './components/Slider.vue'
 
 const network = ref<Network>()
 const graphContainer = ref(null)
+
+const depth = ref(0)
 
 const nodeSettings = ref<NodeSettings>()
 const colorSettings = ref<ColorSettings>()
