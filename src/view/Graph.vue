@@ -11,7 +11,7 @@ import { onMounted, ref } from 'vue'
 
 import type { ColorSettings, Edge, ForceSettings, Node, NodeSettings } from '../utils/types'
 
-import { colorNodes } from '../utils/nodes/colorNodes'
+import { colorNodes, updateNodeColors } from '../utils/nodes/colorNodes'
 import Header from './components/Header.vue'
 
 const network = ref<Network>()
@@ -21,8 +21,8 @@ const nodeSettings = ref<NodeSettings>()
 const colorSettings = ref<ColorSettings>()
 const forceSettings = ref<ForceSettings>()
 
-const nodes = ref<Node[]>()
-const edges = ref<Edge[]>()
+const nodes = ref<Node[]>([])
+const edges = ref<Edge[]>([])
 
 const dataSetNodes = ref<DataSet<Node>>()
 const dataSetEdges = ref<DataSet<Edge>>()
@@ -104,22 +104,9 @@ onMounted(() => {
 			fetchGraphInfo()
 		}
 		else if (message.command === 'updateColorSettings') {
-			const borderColor = colorSettings.value?.outlineColor ? colorSettings.value.outlineColor : '#fff'
-
-			nodes.value?.forEach((node) => {
-				dataSetNodes.value?.update({
-					id: node.id,
-					color: {
-						border: borderColor,
-						highlight: {
-							border: borderColor,
-						},
-						hover: {
-							border: borderColor,
-						},
-					},
-				})
-			})
+			if (dataSetNodes.value) {
+				updateNodeColors(nodes.value, colorSettings.value, dataSetNodes.value)
+			}
 		}
 	})
 })

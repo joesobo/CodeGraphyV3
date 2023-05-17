@@ -1,3 +1,4 @@
+import type { DataSet } from 'vis-network'
 import chroma from 'chroma-js'
 import type { ColorSettings, Node } from '../types'
 
@@ -48,18 +49,46 @@ export const colorNodes = (nodes: Node[], colorSettings: ColorSettings | undefin
 
 		const nodeColor = getColorByFileExtension(colorString)
 		const borderColor = colorSettings?.outlineColor ? colorSettings.outlineColor : '#fff'
+		const selectedColor = colorSettings?.selectedColor ? colorSettings.selectedColor : nodeColor
 
 		node.color = {
 			border: borderColor,
 			background: nodeColor,
 			highlight: {
 				border: borderColor,
-				background: nodeColor,
+				background: selectedColor,
 			},
 			hover: {
 				border: borderColor,
 				background: nodeColor,
 			},
 		}
+	})
+}
+
+export const updateNodeColors = (nodes: Node[], colorSettings: ColorSettings | undefined, dataSetNodes: DataSet<Node>) => {
+	nodes.forEach((node) => {
+		const colorString
+      = (node.type === 'Directory' || node.type === 'Package')
+      	? node.type
+      	: node.label.split('.')[1]
+
+		const nodeColor = getColorByFileExtension(colorString)
+		const borderColor = colorSettings?.outlineColor ? colorSettings.outlineColor : '#fff'
+		const selectedColor = colorSettings?.selectedColor ? colorSettings.selectedColor : nodeColor
+
+		dataSetNodes.update({
+			id: node.id,
+			color: {
+				border: borderColor,
+				highlight: {
+					border: borderColor,
+					background: selectedColor,
+				},
+				hover: {
+					border: borderColor,
+				},
+			},
+		})
 	})
 }
