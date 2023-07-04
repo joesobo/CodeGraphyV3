@@ -1,8 +1,8 @@
 import * as vscode from 'vscode'
 
-import { files, setPluginData } from './utils/info/info'
-
 import { GraphViewProvider } from './GraphViewProvider'
+import type { PluginData } from './utils/types'
+import { PluginManager } from './utils/pluginManager'
 import { StatsViewProvider } from './StatsViewProvider'
 
 export const activate = (context: vscode.ExtensionContext) => {
@@ -10,6 +10,7 @@ export const activate = (context: vscode.ExtensionContext) => {
 	console.log('CodeGraphy - Base Extension activated!')
 
 	const graphProvider = new GraphViewProvider(context.extensionUri)
+	const pluginManager = new PluginManager(graphProvider)
 
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider(
@@ -25,23 +26,12 @@ export const activate = (context: vscode.ExtensionContext) => {
 		),
 	)
 
-	const getSystemFiles = vscode.commands.registerCommand(
-		'codegraphy.getSystemFiles',
-		() => {
-			return { message: files }
+	const registerPlugin = vscode.commands.registerCommand(
+		'codegraphy.registerPlugin',
+		async (pluginData: PluginData) => {
+			pluginManager.registerPlugin(pluginData)
 		},
 	)
 
-	const sendPluginConnections = vscode.commands.registerCommand(
-		'codegraphy.sendPluginConnections',
-		async (data) => {
-			setPluginData(data)
-			await graphProvider.postMessage({
-				command: 'pluginLoaded',
-				data,
-			})
-		},
-	)
-
-	context.subscriptions.push(getSystemFiles, sendPluginConnections)
+	context.subscriptions.push(registerPlugin)
 }

@@ -5,7 +5,7 @@ import { filterInfo } from './filterInfo'
 export const processGraphInfo = (nodeSettings: NodeSettings) => {
 	const { nodes, edges } = filterInfo(nodeSettings)
 
-	colorEdges(edges)
+	colorEdges(edges, undefined)
 
 	return { nodes, edges }
 }

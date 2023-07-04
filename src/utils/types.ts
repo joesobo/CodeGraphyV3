@@ -21,6 +21,12 @@ export type Directory = {
   path: string
 }
 
+export type PluginData = {
+	name: string
+	regex: RegExp[]
+	getConnection: (match: RegExpExecArray, file: File, fileIndex: number, nodes: Node[], edges: Edge[]) => { nodes: Node[]; edges: Edge[] }
+}
+
 export type ConnectionMode = 'Interaction' | 'Directory'
 
 export type NodeSize = 'Lines' | 'Connections'
