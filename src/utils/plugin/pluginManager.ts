@@ -1,7 +1,8 @@
 import { EventEmitter } from 'node:events'
-import type { GraphViewProvider } from '../GraphViewProvider'
-import { getPluginData, resetPluginData } from './info/info'
-import type { PluginData } from './types'
+import { getPluginData, resetPluginData } from '../info/info'
+
+import type { GraphViewProvider } from '../../GraphViewProvider'
+import type { PluginData } from '../types'
 import { loadPlugins } from './loadPlugins'
 
 export const registeredPlugins: PluginData[] = []

@@ -2,7 +2,7 @@ import * as vscode from 'vscode'
 
 import { GraphViewProvider } from './GraphViewProvider'
 import type { PluginData } from './utils/types'
-import { PluginManager } from './utils/pluginManager'
+import { PluginManager } from './utils/plugin/pluginManager'
 import { StatsViewProvider } from './StatsViewProvider'
 
 export const activate = (context: vscode.ExtensionContext) => {

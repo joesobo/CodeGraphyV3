@@ -1,7 +1,8 @@
 import fs from 'node:fs'
-import { pluginEdges as edges, files, pluginNodes as nodes, setPluginData } from './info/info'
+import { pluginEdges as edges, files, pluginNodes as nodes, setPluginData } from '../info/info'
 
-import type { Node } from './types'
+import type { Node } from '../types'
+import { registeredPlugins } from './pluginManager'
 
 export const loadPlugins = () => {
 	const tempNodes: Node[] = []
