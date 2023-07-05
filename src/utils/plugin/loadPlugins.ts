@@ -26,10 +26,6 @@ export const loadPlugins = () => {
 				let match
 				// eslint-disable-next-line no-cond-assign
 				while ((match = regex.exec(fileContents)) !== null) {
-					if (match === null) {
-						return
-					}
-
 					setPluginData(plugin.getConnection(match, file, fileIndex, nodes, edges))
 				}
 			})
