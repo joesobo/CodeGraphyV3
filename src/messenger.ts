@@ -1,4 +1,4 @@
-import type * as vscode from 'vscode'
+import * as vscode from 'vscode'
 
 import { fetchColorSettings, fetchForceSettings, fetchNodeSettings, saveColorSettings, saveForceSettings, saveNodeSettings } from './utils/vscode/workspaceSettings'
 
@@ -56,6 +56,15 @@ const receiveMessages = (webview: vscode.Webview) => {
 				forceSettings: message.forceSettings,
 			})
 			break
+		case 'openFile': {
+			await vscode.workspace
+				.openTextDocument(vscode.Uri.file(message.text))
+				.then(async (doc) => {
+					await vscode.window.showTextDocument(doc)
+				})
+
+			break
 		}
+	}
 	})
 }

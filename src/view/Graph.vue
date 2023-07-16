@@ -88,6 +88,20 @@ onMounted(() => {
 					},
 					options,
 				)
+
+				network.value.on('click', (properties) => {
+					if (!properties.nodes.length) return
+
+					const id = properties.nodes[0]
+					const clickedNode = nodes.value[id]
+
+					if (clickedNode.type !== 'File') return
+
+					vscode.postMessage({
+						command: 'openFile',
+						text: clickedNode.path,
+					})
+				})
 			}
 		}
 		else if (message.command === 'setNodeSettings') {
