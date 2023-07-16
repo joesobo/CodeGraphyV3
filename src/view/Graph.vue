@@ -1,13 +1,11 @@
 <template>
   <Header />
   <div class="flex flex-col items-center">
-    <div ref="graphContainer" class="h-[500px] w-[500px] bg-zinc-800" />
-    <Slider
-      v-model="depth"
-      title="Depth"
-      :min="0"
-      :max="5"
-      class="mt-4 w-full"
+    <div ref="graphContainer" class="h-[500px] w-[500px] bg-zinc-800" @click="closeContextMenu()" />
+    <Slider v-model="depth" title="Depth" :min="0" :max="5" class="mt-4 w-full" />
+    <ContextMenu
+      v-if="showContextMenu && contextMenuNode" :position="contextMenuPosition" :contextNode="contextMenuNode"
+      @close="closeContextMenu()"
     />
   </div>
 </template>
@@ -16,15 +14,26 @@
 import { DataSet, Network } from 'vis-network/standalone'
 import { onMounted, ref } from 'vue'
 
-import type { ColorSettings, Edge, ForceSettings, Node, NodeSettings } from '../utils/types'
+import type {
+	ColorSettings,
+	Edge,
+	ForceSettings,
+	Node,
+	NodeSettings,
+} from '../utils/types'
 
 import { colorNodes, updateNodeColors } from '../utils/nodes/colorNodes'
 import { colorEdges, updateEdgeColors } from '../utils/edges/colorEdges'
 import Header from './components/Header.vue'
 import Slider from './components/Slider.vue'
+import ContextMenu from './components/ContextMenu.vue'
 
 const network = ref<Network>()
 const graphContainer = ref(null)
+
+const showContextMenu = ref(false)
+const contextMenuNode = ref<Node>()
+const contextMenuPosition = ref({ x: 0, y: 0 })
 
 const depth = ref(0)
 
@@ -90,17 +99,50 @@ onMounted(() => {
 				)
 
 				network.value.on('click', (properties) => {
-					if (!properties.nodes.length) return
+					if (!properties.nodes.length) {
+						return
+					 }
 
 					const id = properties.nodes[0]
 					const clickedNode = nodes.value[id]
 
-					if (clickedNode.type !== 'File') return
+					if (clickedNode.type !== 'File') {
+						return
+					 }
 
 					vscode.postMessage({
 						command: 'openFile',
 						text: clickedNode.path,
 					})
+
+					closeContextMenu()
+				})
+
+				network.value.on('oncontext', (properties) => {
+					properties.event.preventDefault()
+
+					if (!network.value) {
+						return
+					 }
+
+					const id = network.value.getNodeAt(properties.pointer.DOM)
+
+					if (id === null) {
+						return
+					 }
+
+					const clickedNode = nodes.value[id as number]
+
+					if (clickedNode && clickedNode.type === 'Package') {
+						return
+					 }
+
+					showContextMenu.value = true
+					contextMenuNode.value = clickedNode
+					contextMenuPosition.value = {
+						x: properties.pointer.DOM.x,
+						y: properties.pointer.DOM.y,
+					}
 				})
 			}
 		}
@@ -155,5 +197,10 @@ const fetchGraphInfo = () => {
 		command: 'getGraphInfo',
 		nodeSettings: { ...nodeSettings.value },
 	})
+}
+
+const closeContextMenu = () => {
+	showContextMenu.value = false
+	contextMenuNode.value = undefined
 }
 </script>

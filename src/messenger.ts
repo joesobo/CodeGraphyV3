@@ -65,6 +65,6 @@ const receiveMessages = (webview: vscode.Webview) => {
 
 			break
 		}
-	}
+		}
 	})
 }
