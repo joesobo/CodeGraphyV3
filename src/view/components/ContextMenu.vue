@@ -1,10 +1,6 @@
 <template>
   <div
-    class="border-border absolute rounded-md border bg-[#202125] px-4 py-2 text-white"
-    :style="{
-      left: `${position.x + 30}px`,
-      top: `${position.y - 40}px`,
-    }"
+    class="rounded-md border bg-[#202125] px-4 py-2 text-white"
   >
     <!-- Add File -->
     <form v-if="creatingFile" class="flex">
@@ -19,7 +15,7 @@
     </form>
 
     <!-- Add Folder -->
-    <form v-if="creatingFolder" class="flex">
+    <form v-else-if="creatingFolder" class="flex">
       <input
         v-model="newFolderName"
         type="text"
@@ -48,44 +44,38 @@
         {{ contextNode.label }}
       </p>
 
-      <div class="flex justify-between space-x-2">
+      <div class="flex flex-col justify-between space-y-2">
         <IconButton
-          padRight
-          padTop
-          popperContent="Add File"
+          content="Add File"
           @click="startCreatingFile"
         >
           <FileIcon width="1.25rem" height="1.25rem" />
         </IconButton>
         <IconButton
           v-if="canCreateFolder"
-          padRight
-          padTop
-          popperContent="Add Folder"
+          content="Add Folder"
           @click="startCreatingFolder"
         >
           <FolderIcon width="1.25rem" height="1.25rem" />
         </IconButton>
         <IconButton
           v-if="canFavorite"
-          padRight
-          padTop
-          popperContent="Favorite"
+          content="Favorite"
           @click="favoriteFile"
         >
           <StarIcon width="1.25rem" height="1.25rem" />
         </IconButton>
-        <IconButton padRight padTop popperContent="Rename">
+        <IconButton content="Rename">
           <RenameIcon
             width="1.25rem"
             height="1.25rem"
             @click="startRenamingNode"
           />
         </IconButton>
-        <IconButton padRight padTop popperContent="Copy Path" @click="copyPath">
+        <IconButton content="Copy Path" @click="copyPath">
           <CopyIcon width="1.25rem" height="1.25rem" />
         </IconButton>
-        <IconButton padTop popperContent="Delete" @click="deleteNode">
+        <IconButton content="Delete" @click="deleteNode">
           <DeleteIcon width="1.25rem" height="1.25rem" />
         </IconButton>
       </div>
@@ -97,6 +87,7 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 
 import type { Node } from '../../utils/types'
+import IconButton from './IconButton.vue'
 
 import CopyIcon from '~icons/mdi/content-copy'
 import DeleteIcon from '~icons/mdi/delete'
@@ -106,12 +97,12 @@ import RenameIcon from '~icons/mdi/rename'
 import StarIcon from '~icons/mdi/star'
 
 const props = defineProps<{
-  position: { x: number; y: number }
   contextNode: Node
 }>()
 
 const emit = defineEmits<{
   (event: 'close'): void
+	(update: 'update'): void
 }>()
 
 const creatingFile = ref(false)
@@ -143,14 +134,17 @@ const canFavorite = computed(() => props.contextNode.type !== 'Directory')
 
 const startCreatingFile = () => {
 	creatingFile.value = true
+	emit('update')
 }
 
 const startCreatingFolder = () => {
 	creatingFolder.value = true
+	emit('update')
 }
 
 const startRenamingNode = () => {
 	renamingNode.value = true
+	emit('update')
 }
 
 const addFile = () => {

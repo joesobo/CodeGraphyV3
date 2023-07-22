@@ -163,6 +163,7 @@
   },
   "dependencies": {
     "@intlify/unplugin-vue-i18n": "^0.8.2",
+    "@popperjs/core": "^2.11.8",
     "chroma-js": "^2.4.2",
     "vis-data": "^7.1.6",
     "vis-network": "^9.1.6",

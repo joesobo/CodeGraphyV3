@@ -3,16 +3,25 @@
   <div class="flex flex-col items-center">
     <div ref="graphContainer" class="h-[500px] w-[500px] bg-zinc-800" @click="closeContextMenu()" />
     <Slider v-model="depth" title="Depth" :min="0" :max="5" class="mt-4 w-full" />
-    <ContextMenu
-      v-if="showContextMenu && contextMenuNode" :position="contextMenuPosition" :contextNode="contextMenuNode"
-      @close="closeContextMenu()"
-    />
+    <div
+      v-if="contextMenu.show && contextMenu.node"
+      id="context-menu"
+      ref="contextMenuRef"
+    >
+      <ContextMenu
+        :contextNode="contextMenu.node"
+        @update="popperInstance?.update()"
+        @close="closeContextMenu()"
+      />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { DataSet, Network } from 'vis-network/standalone'
-import { onMounted, ref } from 'vue'
+import { nextTick, onMounted, reactive, ref } from 'vue'
+import type { Instance } from '@popperjs/core'
+import { createPopper } from '@popperjs/core'
 
 import type {
 	ColorSettings,
@@ -31,10 +40,14 @@ import ContextMenu from './components/ContextMenu.vue'
 const network = ref<Network>()
 const graphContainer = ref(null)
 
-const showContextMenu = ref(false)
 const isContextClick = ref(false)
-const contextMenuNode = ref<Node>()
-const contextMenuPosition = ref({ x: 0, y: 0 })
+const contextMenu = reactive<{ show: boolean; node: Node | undefined; position: { x: number; y: number } }>({
+	show: false,
+	node: undefined,
+	position: { x: 0, y: 0 },
+})
+const contextMenuRef = ref(null)
+const popperInstance = ref<Instance | null>(null)
 
 const depth = ref(0)
 
@@ -125,6 +138,7 @@ onMounted(() => {
 				})
 
 				network.value.on('oncontext', (properties) => {
+					closeContextMenu()
 					isContextClick.value = true
 					properties.event.preventDefault()
 
@@ -142,14 +156,15 @@ onMounted(() => {
 
 					if (clickedNode && clickedNode.type === 'Package') {
 						return
-					 }
+					}
 
-					showContextMenu.value = true
-					contextMenuNode.value = clickedNode
-					contextMenuPosition.value = {
+					contextMenu.show = true
+					contextMenu.node = clickedNode
+					contextMenu.position = {
 						x: properties.pointer.DOM.x,
 						y: properties.pointer.DOM.y,
 					}
+					showContextMenu()
 				})
 			}
 		}
@@ -206,8 +221,58 @@ const fetchGraphInfo = () => {
 	})
 }
 
+const showContextMenu = () => {
+	// Create a dummy element at the click position to attach the popper to
+	const dummyElement = document.createElement('div')
+	dummyElement.style.position = 'absolute'
+	dummyElement.style.left = `${contextMenu.position.x}px`
+	dummyElement.style.top = `${contextMenu.position.y}px`
+	document.body.appendChild(dummyElement)
+
+	// Use the dummy element as the popper reference
+	nextTick().then(() => {
+		if (contextMenuRef.value) {
+			popperInstance.value = createPopper(dummyElement, contextMenuRef.value, {
+				placement: 'right',
+				strategy: 'fixed',
+				modifiers: [
+					{
+						name: 'flip',
+						options: {
+							fallbackPlacements: ['left'],
+						},
+					},
+					{
+						name: 'offset',
+						options: {
+							offset: ({ placement }: { placement: string }) => {
+								switch (placement) {
+								case 'right': return [0, 25]
+								case 'left': return [0, 5]
+								default: return [0, 25]
+								}
+							},
+						},
+					},
+					{
+						name: 'preventOverflow',
+						options: {
+							boundary: graphContainer.value,
+						},
+					},
+				],
+			})
+		}
+	})
+	popperInstance.value?.update()
+}
+
 const closeContextMenu = () => {
-	showContextMenu.value = false
-	contextMenuNode.value = undefined
+	contextMenu.show = false
+	contextMenu.node = undefined
+	if (popperInstance.value) {
+		popperInstance.value.destroy()
+		popperInstance.value = null
+	}
 }
 </script>
