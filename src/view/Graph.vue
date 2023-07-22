@@ -32,6 +32,7 @@ const network = ref<Network>()
 const graphContainer = ref(null)
 
 const showContextMenu = ref(false)
+const isContextClick = ref(false)
 const contextMenuNode = ref<Node>()
 const contextMenuPosition = ref({ x: 0, y: 0 })
 
@@ -99,6 +100,11 @@ onMounted(() => {
 				)
 
 				network.value.on('click', (properties) => {
+					if (isContextClick.value) {
+						isContextClick.value = false
+						return
+					}
+
 					if (!properties.nodes.length) {
 						return
 					 }
@@ -119,6 +125,7 @@ onMounted(() => {
 				})
 
 				network.value.on('oncontext', (properties) => {
+					isContextClick.value = true
 					properties.event.preventDefault()
 
 					if (!network.value) {
